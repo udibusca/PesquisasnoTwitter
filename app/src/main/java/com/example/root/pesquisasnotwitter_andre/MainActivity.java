@@ -121,4 +121,84 @@ public class MainActivity extends Activity {
 
          }
        };// fim da declaração de itemClickListener
+
+ // itemLongClickListener exibe uma caixa de diálogo que permite ao usuário excluir
+         // ou editar uma pesquisa salva
+         OnItemLongClickListener itemLongClickListener =
+             new OnItemLongClickListener()
+ {
+         @Override
+         public boolean onItemLongClick(AdapterView<?> parent, View view,
+                 int position, long id)
+         {
+             // obtém o identificador em que o usuário fez o pressionamento longo
+             final String tag = ((TextView) view).getText().toString();
+
+             // cria um novo componente AlertDialog
+             AlertDialog.Builder builder =  new AlertDialog.Builder(MainActivity.this);
+
+             // configura o título do componente AlertDialog
+             builder.setTitle(getString(R.string.shareEditDeleteTitle, tag));
+
+             // define a lista de itens a exibir na caixa de diálogo
+             builder.setItems(R.array.dialog_items,new DialogInterface.OnClickListener() {
+                 // responde ao toque do usuário, compartilhando, editando ou
+                 // excluindo uma pesquisa salva
+                 @Override
+                 public void onClick(DialogInterface dialog, int which)
+                 {
+                     switch (which)
+                     {
+                         case 0: // compartilha
+                             shareSearch(tag);
+                             break;
+                             case 1: // edita
+                               // configura componentes EditText para corresponder ao
+                                // identificador e à consulta escolhidos
+                             tagEditText.setText(tag);
+                             queryEditText.setText(
+                                     savedSearches.getString(tag, ""));
+                             break;
+                         case 2: // exclui
+                             deleteSearch(tag);
+                             break;
+                         }
+                     }
+                 } // fim de DialogInterface.OnClickListener
+             );    // fim da chamada a builder.setItems
+
+             // configura o componente Button negativo de AlertDialog
+             builder.setNegativeButton(getString( R.string.cancel),
+                     new DialogInterface.OnClickListener()
+             {
+                 // chamado quando o componente Button “Cancel” é clicado
+                 public void onClick(DialogInterface dialog, int id)
+                 {
+                     dialog.cancel(); // remove o componente AlertDialog
+                 }
+             }
+             ); // fim da chamada a setNegativeButton
+
+             builder.create().show(); // exibe o componente AlertDialog
+             return true;
+             } // fim do método onItemLongClick
+         }; // fim da declaração de OnItemLongClickListener
+    // allow user to choose an app for sharing URL of a saved search
+    private void shareSearch(String tag) {
+        // create the URL representing the search
+        String urlString = getString(R.string.search_URL) + Uri.encode(savedSearches.getString(tag, ""), "UTF-8");
+
+        // create Intent to share urlString
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT,
+                getString(R.string.share_subject));
+        shareIntent.putExtra(Intent.EXTRA_TEXT,
+                getString(R.string.share_message, urlString));
+        shareIntent.setType("text/plain");
+
+        // display apps that can share plain text
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_search)));
+    }
+
 }
