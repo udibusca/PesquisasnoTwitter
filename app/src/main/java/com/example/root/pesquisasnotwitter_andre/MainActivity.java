@@ -3,13 +3,20 @@ package com.example.root.pesquisasnotwitter_andre;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,50 +67,58 @@ public class MainActivity extends Activity {
 
     }
 
-    public OnClickListener saveButtonListener =  new OnClickListener() {
+    private final OnClickListener saveButtonListener = new OnClickListener() {
                 // add/update search if neither query nor tag is empty
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
+                    String query = queryEditText.getText().toString();
+                    String tag = tagEditText.getText().toString();
 
-                    if (queryEditText.getText().length() > 0 &&
-                            tagEditText.getText().length() > 0){
-
-                        addTaggedSearch(queryEditText.getText().toString(),
-                                tagEditText.getText().toString());
-                        queryEditText.setText(""); // clear queryEditText
-                        tagEditText.setText(""); // clear tagEditText
-
+                    if (!query.isEmpty() && !tag.isEmpty()) {
+                        // hide the virtual keyboard
                         ((InputMethodManager) getSystemService(
                                 Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
-                                tagEditText.getWindowToken(), 0);
-                    }else{
-                        AlertDialog.Builder builder =
-                                new AlertDialog.Builder(MainActivity.this);
+                                view.getWindowToken(), 0);
 
-                        // configura o título da caixa de diálogo e a mensagem a ser exibida
-                        builder.setMessage(R.string.missingMessage);
-                        // fornece um botão OK que simplesmente remove a caixa de diálogo
-                        builder.setPositiveButton(R.string.OK, null);
-                        // cria AlertDialog a partir de AlertDialog.Builder
-                        AlertDialog errorDialog = builder.create();
-                        errorDialog.show();
+                        addTaggedSearch(tag, query); // add/update the search
+                        queryEditText.setText(""); // clear queryEditText
+                        tagEditText.setText(""); // clear tagEditText
+                        queryEditText.requestFocus(); // queryEditText gets focus
                     }
                 }
             };
 
 // adiciona uma nova pesquisa ao arquivo de salvamento e, então, atualiza todos
 // os componentes Button
- private void addTaggedSearch(String query, String tag)
- {
+    private void addTaggedSearch(String tag, String query) {
+        // obter um SharedPreferences.Editor para armazenar um novo par de tags / consultas
 
- if (!tags.contains(tag))
-            {
-            tags.add(tag); // adiciona o novo identificador
-             Collections.sort(tags, String.CASE_INSENSITIVE_ORDER);
-            }
+        SharedPreferences.Editor preferencesEditor = savedSearches.edit();
+        preferencesEditor.putString(tag, query); // store current search
+        preferencesEditor.apply(); // store the updated preferences
 
-    public void setListAdapter(ArrayAdapter<String> listAdapter) {
-        this.listAdapter = listAdapter;
-    }
-}
+        // se a tag for nova, adicionar e classificar tags, exibir lista atualizada
+        if (!tags.contains(tag)) {
+            tags.add(tag); // add new tag
+            Collections.sort(tags, String.CASE_INSENSITIVE_ORDER);
+            adapter.notifyDataSetChanged(); // atualiza tags no RecyclerView
+        }
+      }
+
+    // itemClickListener ativa o navegador Web para exibir resultados da busca
+       OnItemClickListener itemClickListener = new OnItemClickListener(){
+         @Override
+         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+         {
+             // obtém a string de consulta e cria uma URL representando a busca
+                String tag = ((TextView) view).getText().toString();
+                String urlString = getString(R.string.searchURL) +
+                        Uri.encode(savedSearches.getString(tag, ""), "UTF-8");
+             // cria um objeto Intent para ativar um navegador Web
+             Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                     Uri.parse(urlString));
+             startActivity(webIntent); // ativa o navegador Web para ver os resultados
+
+         }
+       };// fim da declaração de itemClickListener
 }
