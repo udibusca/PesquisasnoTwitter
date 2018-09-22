@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Pesquisas no Twitter - Andre</string>
+    <string name="labelBuscaTwitter">Digite a consulta de pesquisa do Twitter aqui</string>
+    <string name="labelBuscaTag">Marque sua consulta</string>
+    <string name="labelSalvar">Salvar</string>
+    <string name="consultasMarcadas">Tagged Searches</string>
+</resources>
