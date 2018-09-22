@@ -1,66 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gridLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:columnCount="1"
+    tools:context=".MainActivity"
+    android:padding="16dp">
 
     <EditText
         android:id="@+id/queryEditText"
-        android:layout_width="356dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tagEditText"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="-49dp"
-        android:layout_marginStart="14dp"
-        android:hint="@string/labelBuscaTwitter"
-        android:inputType="text" />
+        android:layout_gravity="fill_horizontal"
+        android:hint="@string/queryPrompt"
+        android:imeOptions="actionNext" />
 
-    <EditText
-        android:id="@+id/tagEditText"
-        android:layout_width="243dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="68dp"
-        android:hint="@string/labelBuscaTag"
-        android:inputType="text" />
+    <LinearLayout android:layout_gravity="fill_horizontal">
 
-    <Button
-        android:id="@+id/savedSearches"
-        android:layout_width="85dp"
-        android:layout_height="59dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/tagEditText"
-        android:layout_marginEnd="12dp"
-        android:layout_marginTop="-11dp"
-        android:text="@string/labelSalvar" />
+        <EditText
+            android:id="@+id/tagEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|fill_horizontal"
+            android:layout_weight="1"
+            android:hint="@string/tagPrompt"
+            android:imeOptions="actionDone" />
+
+        <ImageButton
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/ic_menu_save"
+            android:contentDescription="@string/saveDescription" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="373dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="15dp"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_gravity="fill"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/holo_blue_bright"
+        android:padding="16dp">
 
         <TextView
-            android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:text="@string/consultasMarcadas"
-            android:textAlignment="center"
-            android:textSize="20sp" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="fill_horizontal"
+            android:gravity="center_horizontal"
+            android:paddingTop="16dp"
+            android:text="@string/taggedSearches"/>
 
         <ListView
-            android:id="@+id/lista"
+            android:id="@+id/list"
             android:layout_width="match_parent"
-            android:layout_height="335dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="fill"
+            android:paddingTop="16dp">
         </ListView>
-
-
     </LinearLayout>
 
-</RelativeLayout>
+</GridLayout>

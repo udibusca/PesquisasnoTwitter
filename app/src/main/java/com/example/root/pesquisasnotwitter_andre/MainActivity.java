@@ -1,13 +1,20 @@
 package com.example.root.pesquisasnotwitter_andre;
 
-import android.app.Activity;
+
+// MainActivity.java
+// Gerencia suas pesquisas favoritas no Twitter para
+// facilitar o acesso e exibir no navegador Web do dispositivo
+import java.util.Collections;
 import android.app.AlertDialog;
+import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -15,24 +22,20 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
-import static java.util.Collections.*;
-
-public class MainActivity extends Activity {
+public class MainActivity extends ListActivity {
 
     // nome do arquivo XML de SharedPreferences que armazena as pesquisas salvas
     private static final String SEARCHES = "searches";
+
     private EditText queryEditText;          // EditText onde o usuário digita uma consulta
     private EditText tagEditText;            // EditText onde o usuário identifica uma consulta
     private SharedPreferences savedSearches; // pesquisas favoritas do usuário
     private ArrayList<String> tags;          // lista de identificadores das pesquisas salvas
     private ArrayAdapter<String> adapter;    // vincula identificadores a ListView
-    private ArrayAdapter<String> listAdapter;
 
 
     @Override
@@ -77,7 +80,7 @@ public class MainActivity extends Activity {
                     if (!query.isEmpty() && !tag.isEmpty()) {
                         // hide the virtual keyboard
                         ((InputMethodManager) getSystemService(
-                                Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+                                INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
                                 view.getWindowToken(), 0);
 
                         addTaggedSearch(tag, query); // add/update the search
@@ -168,7 +171,7 @@ public class MainActivity extends Activity {
              );    // fim da chamada a builder.setItems
 
              // configura o componente Button negativo de AlertDialog
-             builder.setNegativeButton(getString( R.string.cancel),
+             builder.setNegativeButton(getString(R.string.cancel),
                      new DialogInterface.OnClickListener()
              {
                  // chamado quando o componente Button “Cancel” é clicado
@@ -183,22 +186,68 @@ public class MainActivity extends Activity {
              return true;
              } // fim do método onItemLongClick
          }; // fim da declaração de OnItemLongClickListener
-    // allow user to choose an app for sharing URL of a saved search
-    private void shareSearch(String tag) {
-        // create the URL representing the search
-        String urlString = getString(R.string.search_URL) + Uri.encode(savedSearches.getString(tag, ""), "UTF-8");
 
-        // create Intent to share urlString
+    // permite escolher um aplicativo para compartilhar a URL de uma pesquisa salva
+    private void shareSearch(String tag) {
+        // cria a URL que representa a pesquisa
+        String urlString = getString(R.string.searchURL) + Uri.encode(savedSearches.getString(tag, ""), "UTF-8");
+
+        // cria um objeto Intent para compartilhar urlString
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_SUBJECT,
-                getString(R.string.share_subject));
+                getString(R.string.shareSubject));
         shareIntent.putExtra(Intent.EXTRA_TEXT,
-                getString(R.string.share_message, urlString));
+                getString(R.string.shareMessage, urlString));
         shareIntent.setType("text/plain");
 
         // display apps that can share plain text
-        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_search)));
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.shareSearch)));
     }
 
-}
+     // exclui uma pesquisa depois que o usuário confirma a operação de exclusão
+     private void deleteSearch(final String tag) {
+          // cria um novo componente AlertDialog
+          AlertDialog.Builder confirmBuilder = new AlertDialog.Builder(this);
+
+          // configura a mensagem do componente AlertDialog
+          confirmBuilder.setMessage(
+                  getString(R.string.confirmMessage, tag));
+
+          // configura o elemento Button negativo do componente AlertDialog
+          confirmBuilder.setNegativeButton(getString(R.string.cancel),
+                  new DialogInterface.OnClickListener()
+          {
+              // chamado quando o componente Button “Cancel” é clicado
+              public void onClick(DialogInterface dialog, int id)
+              {
+                  dialog.cancel(); // remove a caixa de diálogo
+                  }
+              }
+          ); // fim da chamada a setNegativeButton
+
+           // configura o elemento Button positivo do componente AlertDialog
+           confirmBuilder.setPositiveButton(getString(R.string.delete),
+                   new DialogInterface.OnClickListener()
+           {
+               // chamado quando o componente Button “Cancel” é clicado
+               public void onClick(DialogInterface dialog, int id)
+               {
+                   tags.remove(tag); // remove o identificador de tags
+
+                   // obtém o SharedPreferences.Editor para remover pesquisa salva
+                   SharedPreferences.Editor preferencesEditor =
+                           savedSearches.edit();
+                   preferencesEditor.remove(tag); // remove a pesquisa
+                   preferencesEditor.apply(); // salva as alterações
+
+                   // vincula novamente o ArrayList de identificadores a ListView para
+                   // mostrar a lista atualizada
+                    adapter.notifyDataSetChanged();
+               }
+           } // fim de OnClickListener
+       );    // fim da chamada a setPositiveButton
+
+          confirmBuilder.create().show(); // exibe o componente AlertDialog
+     } // fim do método deleteSearch
+ } // fim da classe MainActivity

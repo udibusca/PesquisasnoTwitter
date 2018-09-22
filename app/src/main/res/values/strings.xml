@@ -1,7 +1,20 @@
 <resources>
     <string name="app_name">Pesquisas no Twitter - Andre</string>
-    <string name="labelBuscaTwitter">Digite a consulta de pesquisa do Twitter aqui</string>
-    <string name="labelBuscaTag">Marque sua consulta</string>
-    <string name="labelSalvar">Salvar</string>
-    <string name="consultasMarcadas">Tagged Searches</string>
+    <string name="queryPrompt">Digite a consulta de pesquisa do Twitter aqui</string>
+    <string name="tagPrompt">Marque sua consulta</string>
+    <string name="saveDescription">Toque neste botão para salvar sua pesquisa marcada</string>
+    <string name="taggedSearches">Tagged Searches.</string>
+    <string name="searchURL">http://mobile.twitter.com/search</string>
+    <string name="shareEditDeleteTitle">Traduzir, compartilhar, editar ou excluir a pesquisa marcada como \"%s\"</string>
+    <string-array name="dialog_items">
+        <item>Compartilhar</item>
+        <item>Editar</item>
+        <item>Excluir</item>
+    </string-array>
+    <string name="shareSubject">Pesquisa no Twitter que pode interessar a você.</string>
+    <string name="shareMessage">Confira os resultados desta pesquisa no Twitter: %s</string>
+    <string name="shareSearch">Compartilhar pesquisa para: %s</string>
+    <string name="confirmMessage">Tem certeza de que deseja excluir a pesquisa \"%s\"?</string>
+    <string name="cancel">Cancelar</string>
+    <string name="delete">Deletar</string>
 </resources>
