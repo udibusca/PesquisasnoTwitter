@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -55,7 +56,7 @@ public class MainActivity extends ListActivity {
         Collections.sort(tags, String.CASE_INSENSITIVE_ORDER);
 
         // cria ArrayAdapter e o utiliza para vincular os identificadores a ListView
-        adapter = new ArrayAdapter<String>(this, R.layout.activity_main, tags);
+        adapter = new ArrayAdapter<String>(this, R.layout.list_item, tags);
         setListAdapter(adapter);
 
         // registra receptor para salvar uma pesquisa nova ou editada

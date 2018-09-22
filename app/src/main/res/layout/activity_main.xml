@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="fill_horizontal"
         android:hint="@string/queryPrompt"
-        android:imeOptions="actionNext" />
+        android:imeOptions="actionNext"
+        android:inputType="" />
 
     <LinearLayout android:layout_gravity="fill_horizontal">
 
@@ -25,7 +26,8 @@
             android:layout_gravity="bottom|fill_horizontal"
             android:layout_weight="1"
             android:hint="@string/tagPrompt"
-            android:imeOptions="actionDone" />
+            android:imeOptions="actionDone"
+            android:inputType="" />
 
         <ImageButton
             android:id="@+id/saveButton"
@@ -55,11 +57,10 @@
         <ListView
             android:id="@android:id/list"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="348dp"
             android:layout_gravity="fill"
-            android:paddingTop="16dp">
-        </ListView>
+            android:layout_weight="1"
+            android:paddingTop="16dp"></ListView>
     </LinearLayout>
 
 </GridLayout>

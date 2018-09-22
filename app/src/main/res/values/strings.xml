@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Pesquisas no Twitter - Andre</string>
-    <string name="queryPrompt">Digite a consulta de pesquisa do Twitter aqui</string>
+    <string name="queryPrompt">Digite para pesquisa do Twitter ...</string>
     <string name="tagPrompt">Marque sua consulta</string>
     <string name="saveDescription">Toque neste botão para salvar sua pesquisa marcada</string>
     <string name="taggedSearches">Tagged Searches.</string>
