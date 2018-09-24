@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -83,14 +82,14 @@ public class MainActivity extends ListActivity {
                         addTaggedSearch(queryEditText.getText().toString(),
                                 tagEditText.getText().toString()); // add/update the search
                         queryEditText.setText(""); // clear queryEditText
-                        tagEditText.setText(""); // clear tagEditText
+                        tagEditText.setText("");   // clear tagEditText
 
                         ((InputMethodManager) getSystemService(
                                 Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
                                 tagEditText.getWindowToken(), 0);
 
                     }else{ // exibe mensagem solicitando que forneça uma consulta e um identificador
-                        // cria um novo AlertDialog Builder
+                           // cria um novo AlertDialog Builder
                         AlertDialog.Builder builder =
                                 new AlertDialog.Builder(MainActivity.this);
 
