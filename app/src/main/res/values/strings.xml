@@ -3,7 +3,7 @@
     <string name="queryPrompt">Digite para pesquisa do Twitter ...</string>
     <string name="tagPrompt">Marque sua consulta</string>
     <string name="saveDescription">Toque neste botão para salvar sua pesquisa marcada</string>
-    <string name="taggedSearches">Tagged Searches.</string>
+    <string name="taggedSearches">Tags procuradas</string>
     <string name="searchURL">http://mobile.twitter.com/search</string>
     <string name="shareEditDeleteTitle">Traduzir, compartilhar, editar ou excluir a pesquisa marcada como \"%s\"</string>
     <string-array name="dialog_items">
@@ -17,4 +17,6 @@
     <string name="confirmMessage">Tem certeza de que deseja excluir a pesquisa \"%s\"?</string>
     <string name="cancel">Cancelar</string>
     <string name="delete">Deletar</string>
+    <string name="OK">Ok</string>
+    <string name="missingMessage">Insira uma consulta de pesquisa no Twitter e uma tag</string>
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/gridLayout"
     android:layout_width="match_parent"
@@ -21,8 +22,8 @@
 
         <EditText
             android:id="@+id/tagEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="264dp"
+            android:layout_height="match_parent"
             android:layout_gravity="bottom|fill_horizontal"
             android:layout_weight="1"
             android:hint="@string/tagPrompt"
@@ -35,32 +36,42 @@
             android:layout_height="wrap_content"
             android:background="@android:drawable/ic_menu_save"
             android:contentDescription="@string/saveDescription" />
+
+
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:paddingTop="16dp"
+            android:text="@string/taggedSearches" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="261dp"
+        android:layout_height="328dp"
         android:layout_gravity="fill"
         android:layout_marginTop="16dp"
         android:background="@android:color/holo_blue_bright"
         android:padding="16dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="fill_horizontal"
-            android:gravity="center_horizontal"
-            android:paddingTop="16dp"
-            android:text="@string/taggedSearches"/>
-
         <ListView
             android:id="@android:id/list"
-            android:layout_width="match_parent"
-            android:layout_height="348dp"
+            android:layout_width="263dp"
+            android:layout_height="365dp"
             android:layout_gravity="fill"
             android:layout_weight="1"
-            android:paddingTop="16dp"></ListView>
+            android:paddingTop="16dp" />
     </LinearLayout>
 
 </GridLayout>

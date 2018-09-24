@@ -71,23 +71,38 @@ public class MainActivity extends ListActivity {
 
     }
 
+    // saveButtonListener salva um par identificador-consulta em SharedPreferences
     private final OnClickListener saveButtonListener = new OnClickListener() {
                 // add/update search if neither query nor tag is empty
                 @Override
                 public void onClick(View view) {
-                    String query = queryEditText.getText().toString();
-                    String tag = tagEditText.getText().toString();
 
-                    if (!query.isEmpty() && !tag.isEmpty()) {
-                        // hide the virtual keyboard
-                        ((InputMethodManager) getSystemService(
-                                INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
-                                view.getWindowToken(), 0);
-
-                        addTaggedSearch(tag, query); // add/update the search
+                  // cria identificador se nem queryEditText nem tagEditText está vazio
+                    if (queryEditText.getText().length() > 0 &&
+                            tagEditText.getText().length() > 0){
+                        addTaggedSearch(queryEditText.getText().toString(),
+                                tagEditText.getText().toString()); // add/update the search
                         queryEditText.setText(""); // clear queryEditText
                         tagEditText.setText(""); // clear tagEditText
-                        queryEditText.requestFocus(); // queryEditText gets focus
+
+                        ((InputMethodManager) getSystemService(
+                                Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+                                tagEditText.getWindowToken(), 0);
+
+                    }else{ // exibe mensagem solicitando que forneça uma consulta e um identificador
+                        // cria um novo AlertDialog Builder
+                        AlertDialog.Builder builder =
+                                new AlertDialog.Builder(MainActivity.this);
+
+                        // configura o título da caixa de diálogo e a mensagem a ser exibida
+                        builder.setMessage(R.string.missingMessage);
+
+                        // fornece um botão OK que simplesmente remove a caixa de diálogo
+                        builder.setPositiveButton(R.string.OK, null);
+
+                        // cria AlertDialog a partir de AlertDialog.Builder
+                        AlertDialog errorDialog = builder.create();
+                        errorDialog.show(); // exibe a caixa de diálogo modal
                     }
                 }
             };
